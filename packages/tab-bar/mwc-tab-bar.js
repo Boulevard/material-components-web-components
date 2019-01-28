@@ -29,10 +29,22 @@ import MDCTabBarFoundation from '@material/tab-bar/foundation';
 import { style } from './mwc-tab-bar-css';
 let TabBar = class TabBar extends BaseElement {
     constructor() {
-        super(...arguments);
+        super();
         this.mdcFoundationClass = MDCTabBarFoundation;
         this.activeIndex = 0;
         this._previousActiveIndex = -1;
+        const updateComplete = this.updateComplete;
+        Object.assign(this, 'updateComplete', {
+            get() {
+                return updateComplete
+                    .then(() => this.scrollerElement.updateComplete)
+                    .then(() => {
+                    if (this.mdcFoundation === undefined) {
+                        this.createFoundation();
+                    }
+                });
+            }
+        });
     }
     _handleTabInteraction(e) {
         this.mdcFoundation.handleTabInteraction(e);
@@ -106,15 +118,6 @@ let TabBar = class TabBar extends BaseElement {
     // This is necessary because the foundation/adapter synchronously addresses
     // the scroller element.
     firstUpdated() { }
-    get updateComplete() {
-        return super.updateComplete
-            .then(() => this.scrollerElement.updateComplete)
-            .then(() => {
-            if (this.mdcFoundation === undefined) {
-                this.createFoundation();
-            }
-        });
-    }
     scrollIndexIntoView(index) {
         this.mdcFoundation.scrollIntoView(index);
     }
