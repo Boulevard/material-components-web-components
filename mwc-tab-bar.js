@@ -34,7 +34,7 @@ let TabBar = class TabBar extends BaseElement {
         this.activeIndex = 0;
         this._previousActiveIndex = -1;
         const updateComplete = this.updateComplete;
-        Object.assign(this, 'updateComplete', {
+        Object.defineProperty(this, 'updateComplete', {
             get() {
                 return updateComplete
                     .then(() => this.scrollerElement.updateComplete)
