@@ -44,6 +44,7 @@ export declare class TabBar extends BaseElement {
     private _previousActiveIndex;
     private _handleTabInteraction;
     private _handleKeydown;
+    constructor();
     renderStyle(): import("lit-html/lib/template-result").TemplateResult;
     render(): import("lit-html/lib/template-result").TemplateResult;
     private _getTabs;
@@ -68,6 +69,5 @@ export declare class TabBar extends BaseElement {
         notifyTabActivated: (index: number) => void;
     };
     firstUpdated(): void;
-    readonly updateComplete: Promise<void>;
     scrollIndexIntoView(index: number): void;
 }
